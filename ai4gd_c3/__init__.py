@@ -1,4 +1,4 @@
-"""AI4GreenDeal course C3, asset A7: hands-on conditional diffusion (cDDPM) for PV disaggregation."""
+"""AI4GreenDeal course C3, asset A8: hands-on conditional diffusion (cDDPM) for PV disaggregation."""
 import os
 from pathlib import Path
 

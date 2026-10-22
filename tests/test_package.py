@@ -124,8 +124,8 @@ def test_repo_string_only_in_three_places():
     hits = dict(hits)
     assert hits.pop("ai4gd_c3/__init__.py") == 1
     hits.pop("README.md", None)  # Colab badge and install line
-    assert hits.pop("AI4GD_C3-A7.ipynb") == 2
-    cells = json.loads((ROOT / "AI4GD_C3-A7.ipynb").read_text())["cells"]
+    assert hits.pop("AI4GD_C3-A8.ipynb") == 2
+    cells = json.loads((ROOT / "AI4GD_C3-A8.ipynb").read_text())["cells"]
     where = [i for i, c in enumerate(cells) if c3.REPO in "".join(c["source"])]
     assert len(where) == 2 and "colab-badge" in "".join(cells[where[0]]["source"]), where  # badge + install cell
     assert not hits, f"repository name written outside the allowed places: {hits}"

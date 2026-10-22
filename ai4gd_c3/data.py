@@ -38,7 +38,7 @@ def experiment_days() -> list:
     return [(int(c), _iso(d)) for c, d in load()["experiment_days"]]
 
 
-CUSTOMER = 134  # the household of C3-A5 and C3-A6
+CUSTOMER = 134  # the household of C3-A5 to C3-A7
 DAYS_134 = {"a": "2012-12-13", "b": "2013-01-04", "c": "2013-01-28"}  # drop, clear, overcast
 
 

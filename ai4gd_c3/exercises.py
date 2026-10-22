@@ -1,4 +1,4 @@
-"""Exercise checks, hints, solutions, questions and progress for C3-A7 (Kaggle-Learn style).
+"""Exercise checks, hints, solutions, questions and progress for C3-A8 (Kaggle-Learn style).
 
 check() never raises: it prints "✅ Correct, you can continue." or one diagnosis. Diagnoses come from comparing the
 learner's output with known wrong variants of the reference on fixed random inputs.
@@ -482,7 +482,7 @@ def _check8(fn):
     def unmasked(pv, lo, up, gh, cap):
         return 100 * ((pv >= lo) & (pv <= up)).float().mean(), ((up - lo) / cap).mean()
     return _compare(fn, ref.picp_pinaw, _cases8(), names=["PICP", "PINAW"], variants=[
-        ("count only daylight half-hours (GHI > 0): at night every interval 'covers' the true zero (C3-A6).",
+        ("count only daylight half-hours (GHI > 0): at night every interval 'covers' the true zero (C3-A7).",
          unmasked, 0),
         ("average the width over daylight half-hours only (GHI > 0), as for PICP.", unmasked, 1),
         ("PICP is a percentage: multiply the share by 100.",
@@ -605,7 +605,7 @@ q6 = Question("q6", "C", optional=True, feedback={
          "50 000 sample-passes of computation.",
     "C": "1 % of 500 is 5, and each sample costs K = 100 network passes. Tails are expensive: that is why the 10 % and "
          "90 % quantiles in the plot settle more slowly than the median, and why wide intervals need many samples "
-         "(C3-A6).",
+         "(C3-A7).",
     "D": "The √N law describes how fast the estimate improves, but the question asks for 5 samples below the 1 % "
          "quantile: 1 % of 5 000 is 50, ten times more than needed."})
 q7 = Question("q7", "A", {

@@ -1,4 +1,4 @@
-"""Reference solutions of the C3-A7 exercises. Notation as in C3-A5/A6.
+"""Reference solutions of the C3-A8 exercises. Notation as in C3-A5 to C3-A7.
 
 Schedule convention: beta, alpha, abar have length K + 1 and index 0 holds beta_0 = 0, alpha_0 = abar_0 = 1,
 so that abar[k] is abar_k for k = 1..K.
@@ -87,7 +87,7 @@ def pinball(pv, q_pred, q, ghi):
     return loss[:, ghi > 0].mean()
 
 
-# Not an exercise: MASE as in C3-A6 (all 48 half-hours, naive = previous half-hour)
+# Not an exercise: MASE as in C3-A7 (all 48 half-hours, naive = previous half-hour)
 def mase(pv, pv_hat):
     n = len(pv)
     return (n - 1) / n * (pv - pv_hat).abs().sum() / (pv[1:] - pv[:-1]).abs().sum()

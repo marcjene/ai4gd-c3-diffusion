@@ -41,7 +41,7 @@ run from 2 July 2012 to 30 June 2013 (364 days per customer). 1 July is dropped 
 | `experiment_days` | [8, 2] | (customer, YYYYMMDD) of the days used in section 6 of the notebook |
 
 - **Customers.** The subset holds the 107 training customers of the course models, test customer 134 (used in
-  C3-A5/A6) and the 20 test customers of the C3-A6 calibration: 128 of the 300 customers. The train/test split is
+  C3-A5 to C3-A7) and the 20 test customers of the C3-A7 calibration: 128 of the 300 customers. The train/test split is
   the course split (43 irregular customers dropped, then a random split by customer with seed 0).
 - **Identifiers.** The Ausgrid customer IDs are kept; they are anonymous in the original dataset. Postcodes are not
   included.
@@ -58,7 +58,7 @@ run from 2 July 2012 to 30 June 2013 (364 days per customer). 1 July is dropped 
 
 ## Checkpoints
 
-The checkpoints are the course models of C3-A5/A6. They were trained on the 107 training customers of this subset
+The checkpoints are the course models of C3-A5 to C3-A7. They were trained on the 107 training customers of this subset
 only:
 
 - **Architecture and training:** 1D U-Net of depth 2, 128 base channels, sinusoidal time embedding of size 32 with

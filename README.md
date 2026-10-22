@@ -1,15 +1,16 @@
-# AI4GreenDeal C3-A7: conditional diffusion for PV disaggregation (hands-on)
+# AI4GreenDeal C3-A8: conditional diffusion for PV disaggregation (hands-on)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marcjene/ai4gd-c3-diffusion/blob/main/AI4GD_C3-A7.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marcjene/ai4gd-c3-diffusion/blob/main/AI4GD_C3-A8.ipynb)
 
-A Colab notebook and a small Python package for asset A7 of the AI4GreenDeal course C3, *Conditional diffusion
+A Colab notebook and a small Python package for asset A8 of the AI4GreenDeal course C3, *Conditional diffusion
 modeling for energy disaggregation*. Learners build, train and evaluate a conditional denoising diffusion model
 (cDDPM). The model recovers rooftop PV generation from smart-meter net consumption and irradiance.
 
-- **Notebook:** `AI4GD_C3-A7.ipynb`. Open it in Google Colab with the badge above; it needs about 120 min on a free
+- **Notebook:** `AI4GD_C3-A8.ipynb`. Open it in Google Colab with the badge above; it needs about 120 min on a free
   T4 GPU.
 - **Package `ai4gd_c3`:** data loading (`data`), the course U-Net with training and sampling loops (`model`),
   reference solutions (`reference`), checks, hints and questions (`exercises`), and plots (`plots`).
+- **Metrics at a glance:** [docs/metrics_at_a_glance.pdf](docs/metrics_at_a_glance.pdf), the one-page summary from C3-A7.
 - **Data and checkpoints:** release assets, downloaded and cached on first use. See `DATA_README.md` for sources,
   licence (CC BY 4.0) and contents.
 
