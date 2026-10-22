@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai4gd-c3"
+version = "1.0.0"
+description = "AI4GreenDeal course C3, asset A7: hands-on conditional diffusion model for PV disaggregation"
+readme = "README.md"
+license = { text = "MIT (code); CC BY 4.0 (data and checkpoints, see DATA_README.md)" }
+requires-python = ">=3.9"
+dependencies = ["torch", "numpy", "matplotlib"]
+
+[tool.setuptools]
+packages = ["ai4gd_c3"]
