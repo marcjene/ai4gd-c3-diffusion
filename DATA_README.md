@@ -51,9 +51,9 @@ run from 2 July 2012 to 30 June 2013 (364 days per customer). 1 July is dropped 
 
 ## Quirks worth knowing
 
-- **PV up to 1.65 pu.** Some systems produce more than their listed capacity. Typical reasons are a nameplate
+- **PV up to 1.63 pu.** Some systems produce more than their listed capacity. Typical reasons are a nameplate
   capacity that understates the array, metadata errors or metering effects. The values were left as they are.
-- **NC up to 25 pu.** NC is divided by the customer's maximum export. A household that rarely exports has a small
+- **NC up to 19 pu.** NC is divided by the customer's maximum export. A household that rarely exports has a small
   maximum export, so its imports become large numbers in pu.
 
 ## Checkpoints

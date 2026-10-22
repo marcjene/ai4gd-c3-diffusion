@@ -557,7 +557,7 @@ q1 = Question("q1", "C", {
     "B": "Shading or degradation lowers PV in pu of capacity; normalising does not remove it. And it would not explain "
          "why the export in particular stays so small.",
     "C": "A small maximum export means the PV rarely leaves the house: imports dominate NC and become large numbers in "
-         "pu (hence the 25 pu above). The midday export, the strongest PV signal in NC_d, is weak or absent, so the "
+         "pu (hence the 19 pu printed above). The midday export, the strongest PV signal in NC_d, is weak or absent, so the "
          "model must lean more on GHI and NC_d−1. You meet such households again in Section 6.",
     "D": "Only the export side is bounded (NC ≥ −1 pu). Imports are divided by the same small number and become large: "
          "this household produces the largest pu values in the dataset."})
