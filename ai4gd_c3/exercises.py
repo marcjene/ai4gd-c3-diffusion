@@ -551,50 +551,80 @@ ex9 = Exercise("ex9", "Ex9 pinball loss", _check9, [ref.pinball],
                "err = pv − q_pred ([Q, T]); loss = max(q·err, (q − 1)·err) with q[:, None]; mean over daylight columns.")
 
 # ---------------------------------------------------------------- the questions
-q1 = Question("q1", "B", {
-    "A": "The values are real meter readings; Ausgrid flags irregular customers, and these are not among them.",
-    "B": "NC is divided by the household's maximum export. A household that rarely exports has a small maximum "
-         "export, so its imports become large numbers in pu. The scaling keeps the sign and the PV imprint (C3-A5).",
-    "C": "NC = consumption − PV, measured at the meter: PV appears once, as a reduction."})
-q2 = Question("q2", "B", {
-    "A": "At k = 10, ᾱ_k is still about 0.9: the signal share dominates.",
-    "B": "ᾱ_k drops below 0.5 at k = 27, the step where √ᾱ_k = √(1 − ᾱ_k). Same answer as in C3-A5.",
-    "C": "By k = 90, ᾱ_k is about 1e-4: the profile is buried long before."})
-q3 = Question("q3", "C", {
-    "A": "5 is what encoder level 1 sees (3 from the initial convolution, + 2 from its own kernel).",
-    "B": "10 is encoder level 2. Each pooling doubles the stride, so later kernels cover more.",
-    "C": "3 → 5 (level 1) → 6 (pool) → 10 (level 2) → 12 (pool) → 20 → 28 (two bottleneck convolutions): "
-         "28 half-hours, about 14 h, as in C3-A5. Enough to see the whole sunny period."})
-q4 = Question("q4", "A", {
-    "A": "Already at k ≈ 80 on the sunny days the median correlation of x̂_0 with the true PV is about 0.6, and above "
+q1 = Question("q1", "C", {
+    "A": "An export limit curtails PV only when the house cannot use it. Behind the meter, PV still serves the load and "
+         "can produce far more than 0.3 kW, so x_0 is not capped.",
+    "B": "Shading or degradation lowers PV in pu of capacity; normalising does not remove it. And it would not explain "
+         "why the export in particular stays so small.",
+    "C": "A small maximum export means the PV rarely leaves the house: imports dominate NC and become large numbers in "
+         "pu (hence the 25 pu above). The midday export, the strongest PV signal in NC_d, is weak or absent, so the "
+         "model must lean more on GHI and NC_d−1. You meet such households again in Section 6.",
+    "D": "Only the export side is bounded (NC ≥ −1 pu). Imports are divided by the same small number and become large: "
+         "this household produces the largest pu values in the dataset."})
+q2 = Question("q2", "A", {
+    "A": "In training, x_K still contains about 0.6·x_0, so pure noise is out of distribution for the first reverse "
+         "steps. Later, well-trained steps largely repair it, but the course uses β_K = 0.2 (ᾱ_K ≈ 2·10⁻⁵) so that x_K "
+         "really is pure noise. Cosine schedules address the same issue (C3-A5, design choices).",
+    "B": "Diversity comes from the fresh noise added at every step and from the starting noise; neither is reduced. "
+         "The problem is that the first steps see inputs unlike any in training.",
+    "C": "The chain does partly recover, which is why the paper's results are still good. But the first steps run on "
+         "inputs never seen in training, so the start is biased: that is the main consequence, not 'nothing'.",
+    "D": "The opposite: in training, x_K = 0.6·x_0 + 0.8·ε has a variance of about 0.36·0.06 + 0.64 ≈ 0.66, so "
+         "N(0, I) has too much variance, not too little. Either way, the mismatch is the point."})
+q3 = Question("q3", "D", {
+    "A": "At the bottleneck one step is 4 half-hours, so each kernel-3 convolution adds 2 × 4 = 8: 28 → 36 → 44. "
+         "Close, but still short of 48.",
+    "B": "Channels add capacity at each position, not reach: the receptive field depends only on kernels and poolings.",
+    "C": "A kernel-2, stride-2 convolution reaches exactly as far as a 2-wide pooling: the receptive field stays 28.",
+    "D": "Each extra level adds a pooling, which doubles the reach of every later kernel: 3 → 5 → 6 → 10 → 12 → 20 → 24 "
+         "→ 40 → 56 half-hours ≥ 48. The price: the bottleneck holds only 6 values and the network has more weights. "
+         "Since 48 = 2⁴·3, at most 4 levels are possible."})
+q4 = Question("q4", "B", {
+    "A": "k ≈ 27 is where x_k itself becomes signal-dominated. x̂_0 subtracts the predicted noise, so it can show the "
+         "shape much earlier. Run the next cells and compare the two rows of correlations.",
+    "B": "Already at k ≈ 80 the median correlation of x̂_0 with the true PV is about 0.6 on the sunny days, and above "
          "0.9 by k = 60, while x_k itself only shows the shape around k = 10. The network guesses the shape early; "
          "the later steps refine detail. On an overcast day the shape appears much later: there is little PV to "
          "recover (day c: median correlation of x̂_0 about 0.1 at k = 80, 0.5 at k = 50, 0.8 at k = 10).",
-    "B": "Look at the printed correlations: x̂_0 is already clearly shaped well before k = 40.",
-    "C": "k ≈ 10 is when x_k shows the shape. x̂_0, the network's guess, shows it much earlier."})
-q5 = Question("q5", "B", {
-    "A": "Look again at (a): with a clear-sky GHI, the median PV stayed low, or went even lower.",
-    "B": "The samples follow the meter. In the 2012–13 Ausgrid data, a clear day almost always means a midday export, "
-         "so the model learned 'no export ⇒ no PV'. It learned from data, not physics.",
-    "C": "The samples do not land in between: they follow NC, and only the spread grows."})
-q6 = Question("q6", "B", optional=True, feedback={
-    "A": "The median is backed by many samples on both sides: it moves least between repeats.",
-    "B": "With 50 samples the 10 % and 90 % quantiles rest on about 5 values each; the tails need many more samples "
-         "than the median to stabilise (C3-A6).",
-    "C": "Compare the spread of the three quantiles across repeats in the plot."})
+    "C": "The amplification is real: 1/√ᾱ_80 ≈ 29. But ε̂ is accurate enough that x̂_0 at k = 80 is noisy, not "
+         "shapeless. It only fails at k = 100, where the factor is about 216.",
+    "D": "x̂_0 uses the network's estimate of ε as well as x_k, so it can be far better than x_k. Run the next cells and "
+         "compare the two rows of correlations."})
+q5 = Question("q5", "D", {
+    "A": "Physically yes, but the network knows no physics: it learned which input explained PV best in its training "
+         "data. Run the cell and see.",
+    "B": "A reasonable guess, but no: the samples do not land in between. In (a) the PV even went down although the sky "
+         "was clear; in (b) it nearly vanished.",
+    "C": "In (a) the sky signalled much more PV, yet the samples went down: the meter wins in both directions.",
+    "D": "The samples follow the meter. In the 2012–13 Ausgrid data, a clear day almost always means a midday export, "
+         "so the model learned 'no export ⇒ no PV'. It learned from data, not physics."})
+q6 = Question("q6", "C", optional=True, feedback={
+    "A": "1 % of 100 samples is a single sample.",
+    "B": "Batching runs the samples in parallel, but each one still needs K = 100 passes: 100 sequential steps, "
+         "50 000 sample-passes of computation.",
+    "C": "1 % of 500 is 5, and each sample costs K = 100 network passes. Tails are expensive: that is why the 10 % and "
+         "90 % quantiles in the plot settle more slowly than the median, and why wide intervals need many samples "
+         "(C3-A6).",
+    "D": "The √N law describes how fast the estimate improves, but the question asks for 5 samples below the 1 % "
+         "quantile: 1 % of 5 000 is 50, ten times more than needed."})
 q7 = Question("q7", "A", {
-    "A": "A battery or a large daytime load absorbs the PV, so the meter shows no export, the pattern the model "
-         "relies on. That is a shift in the data, not a flaw in the method: training data with such households would "
-         "teach the model otherwise.",
-    "B": "Orientation changes the shape of the export, but the export is still there for the model to see.",
-    "C": "On overcast days there is little PV to miss; the model is not confidently wrong there."})
-q8 = Question("q8", "A", {
-    "A": "The model with all three conditions has the lowest pinball loss and RMSE. NC only can be about as narrow "
-         "(compare PINAW), which matches [1], but it misses more often on dull days. The pinball loss rewards "
-         "calibration and sharpness together (C3-A6). A few days are an illustration, not an evaluation: in a run "
-         "without GPU (3 days, 20 samples) NC only comes very close.",
-    "B": "GHI only has the widest intervals and the largest errors: irradiance does not know this roof.",
-    "C": "NC only is close on sharpness (PINAW), but look at the pinball loss column."})
+    "A": "The cause is the training data: in the 2012–13 Ausgrid data almost no household absorbed its PV, so 'no export "
+         "⇒ no PV' held. Data with batteries and flexible daytime loads teaches the model otherwise. This is a "
+         "distribution shift, not a flaw of the method.",
+    "B": "More samples estimate the same, wrong distribution more precisely: you get a tighter interval around a wrong "
+         "answer.",
+    "C": "NC_d is the most informative condition on sunny days. Without it you get the GHI-only model, the least "
+         "accurate one in the comparison below.",
+    "D": "A household with a battery shows no export on earlier days either: the longer history repeats the same "
+         "evidence, and the model has still never seen 'PV without export'."})
+q8 = Question("q8", "B", {
+    "A": "The pinball loss rewards quantiles in the right place, not width: an interval wider than needed also costs "
+         "loss at every quantile.",
+    "B": "PINAW only measures width. The pinball loss penalises every quantile that is in the wrong place, so tight but "
+         "misplaced intervals (NC only on dull days, when low PV leaves NC ambiguous) score worse. A few days are an "
+         "illustration, not an evaluation: without a GPU (3 days, 20 samples) the two models come very close.",
+    "C": "Your pinball function (Ex9) uses the daylight half-hours only, as PICP and PINAW do.",
+    "D": "Both columns are means over the days (see the line printed above the table): they are comparable."})
 
 EXERCISES = [ex1, ex2, ex3, q1, q2, ex4a, ex4b, q3, ex4c, ex5, ex5b, q4, ex6, ex7, ex8, q6, ex9, q5, q7, q8]
 

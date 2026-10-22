@@ -104,7 +104,7 @@ def test_unet_diagnoses():
 
 
 def test_questions_and_use():
-    assert out(X.q2, "b").startswith("✅") and out(X.q2, "A").startswith("❌")
+    assert out(X.q2, "a").startswith("✅") and out(X.q2, "B").startswith("❌") and "one of" in out(X.q2, "E")
     buf = io.StringIO()
     with redirect_stdout(buf):
         fn = X.ex6.use(lambda s, g: s)
