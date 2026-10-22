@@ -562,15 +562,16 @@ q1 = Question("q1", "C", {
     "D": "Only the export side is bounded (NC ≥ −1 pu). Imports are divided by the same small number and become large: "
          "this household produces the largest pu values in the dataset."})
 q2 = Question("q2", "A", {
-    "A": "In training, x_K still contains about 0.6·x_0, so pure noise is out of distribution for the first reverse "
-         "steps. Later, well-trained steps largely repair it, but the course uses β_K = 0.2 (ᾱ_K ≈ 2·10⁻⁵) so that x_K "
-         "really is pure noise. Cosine schedules address the same issue (C3-A5, design choices).",
-    "B": "Diversity comes from the fresh noise added at every step and from the starting noise; neither is reduced. "
-         "The problem is that the first steps see inputs unlike any in training.",
-    "C": "The chain does partly recover, which is why the paper's results are still good. But the first steps run on "
-         "inputs never seen in training, so the start is biased: that is the main consequence, not 'nothing'.",
-    "D": "The opposite: in training, x_K = 0.6·x_0 + 0.8·ε has a variance of about 0.36·0.06 + 0.64 ≈ 0.66, so "
-         "N(0, I) has too much variance, not too little. Either way, the mismatch is the point."})
+    "A": "This day's PV varies by about 0.33 pu, while the noise has standard deviation 1. At k = 10 the noise share "
+         "is 0.30, so the added noise (0.30) is already as large as the remaining signal variation (0.95 × 0.33). "
+         "The shape drowns long before the shares cross at k = 27, as C3-A5 noted: PV values are small compared "
+         "with the noise.",
+    "B": "The opposite: β_k grows with k, from 10⁻⁴ to 0.2, so the first steps add the least noise. ᾱ_10 is still "
+         "about 0.91.",
+    "C": "The noise is indeed independent per half-hour, but that holds at every k and for any signal. It does not "
+         "explain why the shape is gone while 95 % of the signal amplitude remains.",
+    "D": "√ᾱ_10 ≈ 0.95: the profile keeps 95 % of its size. It is not shrunk away, it is drowned by noise of a similar "
+         "size."})
 q3 = Question("q3", "D", {
     "A": "At the bottleneck one step is 4 half-hours, so each kernel-3 convolution adds 2 × 4 = 8: 28 → 36 → 44. "
          "Close, but still short of 48.",
